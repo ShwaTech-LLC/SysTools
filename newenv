@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# New environment setup script for ShwaTech Linux virtual machines
+# Requires: bash, assumes git has been installed and this repo cloned somewhere
+#
+# Creates ~/bin and adds it to the PATH, creates an update script, generates an SSH key pair
+#
+
+read -p 'This script will set up your new environment with the necessary tools and configurations. Do you want to proceed? (y/n) ' PROCEED
+if [[ "$PROCEED" != "y" ]]; then
+    echo 'Setup aborted.'
+    exit 1
+fi
+
+echo 'Setting up your bin directory'
+if [[ -d "$HOME/bin" ]]; then
+    echo 'bin directory exists, skipping creation'
+else
+    mkdir "$HOME/bin"
+fi
+
+echo 'Creating an update script'
+touch "$HOME/bin/update"
+echo '#!/bin/bash' > "$HOME/bin/update"
+echo 'sudo apt update && sudo apt upgrade -y' >> "$HOME/bin/update"
+chmod +x "$HOME/bin/update"
+
+echo 'Adding home/bin to the path'
+echo '' >> "$HOME/.bashrc"
+echo '# add our local bin to the path' >> "$HOME/.bashrc"
+echo 'PATH="$HOME/bin:$PATH"' >> "$HOME/.bashrc"
+read -p "Enter your email address: " EMAIL_ADDY
+ssh-keygen -t ed25519 -C "$EMAIL_ADDY"

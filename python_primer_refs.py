@@ -1,0 +1,9 @@
+def three_blind_mice(): return """Three blind mice, three blind mice,
+See how they run, see how they run!
+
+They all ran after the farmer's wife,
+Who cut off their tails with a carving knife,
+
+Did you ever see such a thing in your life,
+As three blind mice?
+"""
